@@ -89,7 +89,6 @@ public protocol BaseProtocol<TopologicalSpaceType>: SetProtocol
 public protocol OpenSetProtocol<TopologicalSpaceType>: SetProtocol
 {
     associatedtype TopologicalSpaceType: TopologicalSpaceProtocol;
-    func contains(_ point: Element) -> Bool;
     func union(_ other: some OpenSetProtocol<TopologicalSpaceType>) -> any OpenSetProtocol<TopologicalSpaceType>;
     func intersection(_ other: some OpenSetProtocol<TopologicalSpaceType>) -> any OpenSetProtocol<TopologicalSpaceType>;
 }
@@ -97,7 +96,6 @@ public protocol OpenSetProtocol<TopologicalSpaceType>: SetProtocol
 public protocol ClosedSetProtocol<TopologicalSpaceType>: SetProtocol
 {
     associatedtype TopologicalSpaceType: TopologicalSpaceProtocol;
-    func contains(_ point: Element) -> Bool;
     func union(_ other: some ClosedSetProtocol<TopologicalSpaceType>) -> any ClosedSetProtocol<TopologicalSpaceType>;
     func intersection(_ other: some ClosedSetProtocol<TopologicalSpaceType>) -> any ClosedSetProtocol<TopologicalSpaceType>;
 }
