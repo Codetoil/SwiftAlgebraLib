@@ -17,154 +17,93 @@
 
 import Foundation
 
-public protocol SetElementProtocol
+public protocol SetProtocol<Element>: Hashable
 {
-    static func ==(operand1: Self, operand2: any SetElementProtocol) -> Bool;
-    static func ==(operand1: any SetElementProtocol, operand2: Self) -> Bool;
+    associatedtype Element: Hashable;
+    func contains(_ member: Element) -> Bool;
+    func union(_ other: some SetProtocol) -> any SetProtocol;
+    func intersection(_ other: some SetProtocol) -> any SetProtocol;
+    func symmetricDifference(_ other: some SetProtocol) -> any SetProtocol;
+    func isStrictSubset(_ of: some SetProtocol) -> Bool;
+    func isStrictSuperset(_ of: some SetProtocol) -> Bool;
+    func isSubset(_ of: some SetProtocol) -> Bool;
+    func isSuperset(_ of: some SetProtocol) -> Bool;
+    func isDisjoint(_ with: some SetProtocol) -> Bool;
+    func subtracting(_ other: some SetProtocol) -> any SetProtocol;
 }
 
-infix operator ∈: CastingPrecedence
-infix operator ∪: LogicalDisjunctionPrecedence
-infix operator ∩: LogicalConjunctionPrecedence
-infix operator ⊂: ComparisonPrecedence
-infix operator ⊃: ComparisonPrecedence
-infix operator ⊆: ComparisonPrecedence
-infix operator ⊇: ComparisonPrecedence
-postfix operator ∁
-
-public protocol SetProtocol: SetElementProtocol
+extension Set: SetProtocol where Set.Element == Element
 {
-    static func ∈(element: any SetElementProtocol, set: Self) -> Bool;
-    static func ∪(operand1: Self, operand2: any SetProtocol) -> any SetProtocol;
-    static func ∪(operand1: any SetProtocol, operand2: Self) -> any SetProtocol;
-    static func ∩(operand1: Self, operand2: any SetProtocol) -> any SetProtocol;
-    static func ∩(operand1: any SetProtocol, operand2: Self) -> any SetProtocol;
-    static func ⊂(properSubset: any SetProtocol, set: Self) -> Bool;
-    static func ⊃(properSuperset: any SetProtocol, set: Self) -> Bool;
-    static func ⊆(subset: any SetProtocol, set: Self) -> Bool;
-    static func ⊇(superset: any SetProtocol, set: Self) -> Bool;
-    static postfix func ∁(operand: Self) -> any SetProtocol;
-}
+    public func union(_ other: some SetProtocol) -> any SetProtocol
+    {
 
-public class EmptySet: SetProtocol
-{
-    public static var instance: EmptySet = EmptySet();
-    
-    private init() {}
-    
-    public static func ∈(element: any SetElementProtocol, emptySet: EmptySet) -> Bool
-    {
-        return false;
     }
-    public static func ==(emptySet: EmptySet, operand: any SetElementProtocol) -> Bool
+    public func intersection(_ other: some SetProtocol) -> any SetProtocol
     {
-        return operand is EmptySet;
-    }
-    public static func ==(operand: any SetElementProtocol, emptySet: EmptySet) -> Bool
-    {
-        return operand is EmptySet;
-    }
-    public static func ∪(emptySet: EmptySet, operand: any SetProtocol) -> any SetProtocol
-    {
-        return operand;
-    }
-    public static func ∪(operand: any SetProtocol, emptySet: EmptySet) -> any SetProtocol
-    {
-        return operand;
-    }
-    public static func ∩(emptySet: EmptySet, operand: any SetProtocol) -> any SetProtocol
-    {
-        return EmptySet.instance;
-    }
-    public static func ∩(operand: any SetProtocol, emptySet: EmptySet) -> any SetProtocol
-    {
-        return EmptySet.instance;
-    }
-    public static func ⊂(properSubset: any SetProtocol, emptySet: EmptySet) -> Bool
-    {
-        return false;
-    }
-    public static func ⊃(properSuperset: any SetProtocol, emptySet: EmptySet) -> Bool
-    {
-        return !(properSuperset is EmptySet);
-    }
-    public static func ⊆(subset: any SetProtocol, emptySet: EmptySet) -> Bool
-    {
-        return false;
-    }
-    public static func ⊇(superset: any SetProtocol, emptySet: EmptySet) -> Bool
-    {
-        return true;
-    }
-    public static postfix func ∁(operand: EmptySet) -> any SetProtocol
-    {
-        return UniverseSet.instance;
-    }
-}
 
-public class UniverseSet: SetProtocol
-{
-    public static var instance: UniverseSet = UniverseSet();
-    
-    private init() {}
-    
-    public static func ∈(element: any SetElementProtocol, universeSet: UniverseSet) -> Bool
-    {
-        return true;
     }
-    public static func ==(universeSet: UniverseSet, operand: any SetElementProtocol) -> Bool
+    public func symmetricDifference(_ other: some SetProtocol) -> any SetProtocol
     {
-        return operand is UniverseSet;
+
     }
-    public static func ==(operand: any SetElementProtocol, universeSet: UniverseSet) -> Bool
+    public func isStrictSubset(_ of: some SetProtocol) -> Bool
     {
-        return operand is UniverseSet;
+
     }
-    public static func ∪(universeSet: UniverseSet, operand: any SetProtocol) -> any SetProtocol
+    public func isStrictSuperset(_ of: some SetProtocol) -> Bool
     {
-        return UniverseSet.instance;
+
     }
-    public static func ∪(operand: any SetProtocol, universeSet: UniverseSet) -> any SetProtocol
+    public func isSubset(_ of: some SetProtocol) -> Bool
     {
-        return UniverseSet.instance;
+
     }
-    public static func ∩(universeSet: UniverseSet, operand: any SetProtocol) -> any SetProtocol
+    public func isSuperset(_ of: some SetProtocol) -> Bool
     {
-        return operand;
+
     }
-    public static func ∩(operand: any SetProtocol, universeSet: UniverseSet) -> any SetProtocol
+    public func isDisjoint(_ with: some SetProtocol) -> Bool
     {
-        return operand;
+
     }
-    public static func ⊂(properSubset: any SetProtocol, universeSet: UniverseSet) -> Bool
+    public func subtracting(_ other: some SetProtocol) -> any SetProtocol
     {
-        return !(properSubset is UniverseSet)
-    }
-    public static func ⊃(properSuperset: any SetProtocol, universeSet: UniverseSet) -> Bool
-    {
-        return false;
-    }
-    public static func ⊆(subset: any SetProtocol, universeSet: UniverseSet) -> Bool
-    {
-        return true;
-    }
-    public static func ⊇(superset: any SetProtocol, universeSet: UniverseSet) -> Bool
-    {
-        return false;
-    }
-    public static postfix func ∁(operand: UniverseSet) -> any SetProtocol
-    {
-        return EmptySet.instance;
+
     }
 }
 
 public protocol TopologicalSpaceProtocol: SetProtocol
 {
-    
+    static func base(point: Element) -> any BaseProtocol<Self>;
+    func subtraction(_ clpenSet: some ClopenSetProtocol<Self>) -> any ClopenSetProtocol<Self>;
+    func subtraction(_ closedSet: some ClosedSetProtocol<Self>) -> any OpenSetProtocol<Self>;
+    func subtraction(_ openSet: some OpenSetProtocol<Self>) -> any ClosedSetProtocol<Self>;
 }
 
-public protocol NeighborhoodProtocol<TopologicalSpaceType>: SetProtocol
+public protocol BaseProtocol<TopologicalSpaceType>: SetProtocol
 {
     associatedtype TopologicalSpaceType: TopologicalSpaceProtocol;
-    static func containsElement(operand: TopologicalSpaceType) -> Bool;
+    func contains(_ openSet: some OpenSetProtocol<TopologicalSpaceType>) -> Bool;
+}
+
+public protocol OpenSetProtocol<TopologicalSpaceType>: SetProtocol
+{
+    associatedtype TopologicalSpaceType: TopologicalSpaceProtocol;
+    func contains(_ point: Element) -> Bool;
+    func union(_ other: some OpenSetProtocol<TopologicalSpaceType>) -> any OpenSetProtocol<TopologicalSpaceType>;
+    func intersection(_ other: some OpenSetProtocol<TopologicalSpaceType>) -> any OpenSetProtocol<TopologicalSpaceType>;
+}
+
+public protocol ClosedSetProtocol<TopologicalSpaceType>: SetProtocol
+{
+    associatedtype TopologicalSpaceType: TopologicalSpaceProtocol;
+    func contains(_ point: Element) -> Bool;
+    func union(_ other: some ClosedSetProtocol<TopologicalSpaceType>) -> any ClosedSetProtocol<TopologicalSpaceType>;
+    func intersection(_ other: some ClosedSetProtocol<TopologicalSpaceType>) -> any ClosedSetProtocol<TopologicalSpaceType>;
+}
+
+public protocol ClopenSetProtocol<TopologicalSpaceType>: OpenSetProtocol, ClosedSetProtocol
+{
+    func union(_ other: some ClopenSetProtocol<TopologicalSpaceType>) -> any ClopenSetProtocol<TopologicalSpaceType>;
+    func intersection(_ other: some ClopenSetProtocol<TopologicalSpaceType>) -> any ClopenSetProtocol<TopologicalSpaceType>;
 }
